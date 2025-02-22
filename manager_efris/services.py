@@ -202,7 +202,7 @@ def create_xero_goods_adjustment(good_instance):
 
 
 
-def xero_get_contacts(request):
+def xero_get_contacts(request, client_data):
     # cred_state = cache.get('xero_creds')
     cred_state = client_data.cred_state
     credentials = OAuth2Credentials(**cred_state)

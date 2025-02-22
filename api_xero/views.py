@@ -21,7 +21,7 @@ from xero import Xero
 from xero.auth import OAuth2Credentials
 from xero.constants import XeroScopes
 from .models import XeroEfrisClientCredentials
-from .services import xero_send_invoice_data
+from .services import efris_bulk_configure_goods, xero_send_invoice_data, efris_bulk_adjust_goods
 
 from django.core.exceptions import BadRequest
 from django.shortcuts import get_object_or_404
@@ -33,7 +33,8 @@ struct_logger = structlog.get_logger(__name__)
 
 @csrf_exempt
 def start_xero_auth_view(request, client_acc_id):
-    client_data = get_object_or_404(XeroEfrisClientCredentials, pk=client_acc_id)
+    client_data = get_object_or_404(
+        XeroEfrisClientCredentials, pk=client_acc_id)
     client_id = client_data.client_id
     client_secret = client_data.client_secret
     callback_uri = client_data.callback_uri
@@ -47,6 +48,8 @@ def start_xero_auth_view(request, client_acc_id):
             XeroScopes.ACCOUNTING_TRANSACTIONS,
             XeroScopes.ACCOUNTING_CONTACTS,
             XeroScopes.ACCOUNTING_SETTINGS,
+            XeroScopes.ACCOUNTING_ATTACHMENTS,
+            XeroScopes.ACCOUNTING_ATTACHMENTS_READ
         ],
     )
 
@@ -63,7 +66,8 @@ def start_xero_auth_view(request, client_acc_id):
 
 @csrf_exempt
 def process_callback_view(request, client_acc_id):
-    client_data = get_object_or_404(XeroEfrisClientCredentials, pk=client_acc_id)
+    client_data = get_object_or_404(
+        XeroEfrisClientCredentials, pk=client_acc_id)
     cred_state = client_data.cred_state
     credentials = OAuth2Credentials(**cred_state)
     auth_secret = request.build_absolute_uri()
@@ -81,7 +85,8 @@ def xero_invoice_webhook(request, client_acc_id):
     try:
         request_data = request.body
 
-        client_data = get_object_or_404(XeroEfrisClientCredentials, pk=client_acc_id)
+        client_data = get_object_or_404(
+            XeroEfrisClientCredentials, pk=client_acc_id)
         header_signature = request.headers["X-Xero-Signature"]
         webhook_key = client_data.webhook_key
 
@@ -92,7 +97,8 @@ def xero_invoice_webhook(request, client_acc_id):
         payload_hashed = hmac.new(
             bytes(webhook_key, "utf8"), request_data, hashlib.sha256
         )
-        generated_signature = base64.b64encode(payload_hashed.digest()).decode("utf8")
+        generated_signature = base64.b64encode(
+            payload_hashed.digest()).decode("utf8")
 
         struct_logger.info(
             event="xero_invoice_webhook",
@@ -110,6 +116,20 @@ def xero_invoice_webhook(request, client_acc_id):
     except Exception as ex:
         struct_logger.info(event="xero_invoice_webhook", error=str(ex))
         return HttpResponse(status=401)
+
+
+@csrf_exempt
+def xero_bulk_products_configuration(request, client_acc_id):
+    client_data = get_object_or_404(
+        XeroEfrisClientCredentials, pk=client_acc_id)
+    return efris_bulk_configure_goods(client_data)
+
+
+@csrf_exempt
+def xero_bulk_products_adjustment(request, client_acc_id):
+    client_data = get_object_or_404(
+        XeroEfrisClientCredentials, pk=client_acc_id)
+    return efris_bulk_adjust_goods(client_data)
 
 
 @csrf_exempt
