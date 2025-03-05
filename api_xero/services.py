@@ -543,9 +543,9 @@ def generate_mita_credit_note(credited_xero_invoice, client_data):
                 struct_logger.info(
                     event="sending xero credit note to mita", mita_payload=mita_payload
                 )
-                
+
                 send_mita_request(
-                        "invoice/queue", mita_payload, client_data)
+                    "invoice/queue", mita_payload, client_data)
 
     except Exception as ex:
         struct_logger.error(
@@ -578,7 +578,7 @@ def get_client_tax_credentials(contact_groups, xero_invoice):
         else:
             buyer_type = "1"
 
-            buyer_tax_pin = xero_invoice["Contact"]["TaxNumber"]
+        buyer_tax_pin = xero_invoice["Contact"]["TaxNumber"]
 
         return buyer_type, buyer_tax_pin
 
