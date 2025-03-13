@@ -331,6 +331,7 @@ def generate_mita_invoice(xero_invoices, client_data):
 
     struct_logger.info(
         event="generate_mita_invoice",
+        message="receiving xero invoices",
         invoice_data=xero_invoices,
     )
 
@@ -346,9 +347,14 @@ def generate_mita_invoice(xero_invoices, client_data):
 
             if xero_invoice["Status"] in ("AUTHORISED", "PAID"):
 
-                print(xero_invoice["Status"])
-
                 try:
+
+                    struct_logger.info(
+                        event="generate_mita_invoice",
+                        message="Authorised xero invoice:{}".format(
+                            xero_invoice["InvoiceNumber"]),
+                        invoice_data=xero_invoice,
+                    )
 
                     if xero_invoice["CreditNotes"]:
                         struct_logger.info(
@@ -364,55 +370,63 @@ def generate_mita_invoice(xero_invoices, client_data):
                 buyer_type, buyer_tax_pin = get_client_tax_credentials(
                     contact_groups, xero_invoice)
 
+                print("line-items {}".format(xero_invoice["LineItems"]))
+
                 for good in xero_invoice["LineItems"]:
-                    mita_good = {
-                        "good_code": good["ItemCode"],
-                        "quantity": good["Quantity"],
-                        "sale_price": good["UnitAmount"],
-                        "tax_category": good["TaxType"],
-                    }
-                    goods_details.append(mita_good)
+                    try:
+                        mita_good = {
+                            "good_code": good["ItemCode"],
+                            "quantity": good["Quantity"],
+                            "sale_price": good["UnitAmount"],
+                            "tax_category": good["TaxType"],
+                        }
+                        goods_details.append(mita_good)
 
-                    mita_payload = {
-                        "invoice_details": {
-                            "invoice_code": xero_invoice["InvoiceNumber"],
-                            "cashier": "System",
-                            "payment_mode": "107",
-                            "currency": xero_invoice["CurrencyCode"],
-                            "invoice_type": "1",
-                            "invoice_kind": "1",
-                            "goods_description": xero_invoice["Reference"],
-                            "industry_code": "",
-                            "original_instance_invoice_id": "",
-                            "return_reason": "",
-                            "return_reason_code": "",
-                            "is_export": is_export,
-                        },
-                        "goods_details": goods_details,
-                        "buyer_details": {
-                            "tax_pin": buyer_tax_pin,
-                            "nin": "",
-                            "passport_number": "",
-                            "legal_name": xero_invoice["Contact"]["Name"],
-                            "business_name": "",
-                            "address": "",
-                            "email": "",
-                            "mobile": "",
-                            "buyer_type": buyer_type,
-                            "buyer_citizenship": "",
-                            "buyer_sector": "",
-                            "buyer_reference": "",
-                            "is_privileged": is_priviledged,
-                            "local_purchase_order": "",
-                        },
-                        "instance_invoice_id": xero_invoice["InvoiceNumber"],
-                    }
-                    struct_logger.info(
-                        event="sending xero invoice to mita", mita_payload=mita_payload
-                    )
-
-                    send_mita_request(
-                        "invoice/queue", mita_payload, client_data)
+                    except Exception as ex:
+                        struct_logger.error(
+                            event="Add goods to Mita",
+                            error=ex,
+                        )
+                        return HttpResponse("Error in invoice generation {}   ".format(str(ex)))
+                mita_payload = {
+                    "invoice_details": {
+                        "invoice_code": xero_invoice["InvoiceNumber"],
+                        "cashier": "System",
+                        "payment_mode": "107",
+                        "currency": xero_invoice["CurrencyCode"],
+                        "invoice_type": "1",
+                        "invoice_kind": "1",
+                        "goods_description": xero_invoice["Reference"],
+                        "industry_code": "",
+                        "original_instance_invoice_id": "",
+                        "return_reason": "",
+                        "return_reason_code": "",
+                        "is_export": is_export,
+                    },
+                    "goods_details": goods_details,
+                    "buyer_details": {
+                        "tax_pin": buyer_tax_pin,
+                        "nin": "",
+                        "passport_number": "",
+                        "legal_name": xero_invoice["Contact"]["Name"],
+                        "business_name": "",
+                        "address": "",
+                        "email": "",
+                        "mobile": "",
+                        "buyer_type": buyer_type,
+                        "buyer_citizenship": "",
+                        "buyer_sector": "",
+                        "buyer_reference": "",
+                        "is_privileged": is_priviledged,
+                        "local_purchase_order": "",
+                    },
+                    "instance_invoice_id": xero_invoice["InvoiceNumber"],
+                }
+                struct_logger.info(
+                    event="sending xero invoice to mita", mita_payload=mita_payload
+                )
+                send_mita_request(
+                    "invoice/queue", mita_payload, client_data)
         except Exception as ex:
             struct_logger.error(
                 event="generate_mita_invoice",
