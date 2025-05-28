@@ -128,7 +128,7 @@ def efris_bulk_configure_goods(client_data):
         measure_unit = "PP"  # Replace with actual logic
 
         for item in items:
-            print(item)
+       
             efris_stock_configuration_payload = {
                 "goods_name": item.get("Name"),
                 "goods_code": item.get("Code"),
@@ -148,7 +148,7 @@ def efris_bulk_configure_goods(client_data):
                 "stock/configuration", efris_stock_configuration_payload, client_data
             )
 
-            print(efris_response)
+        return {"success": "All items configured successfully"}
 
     except Exception as e:
         return {"error": str(e)}
@@ -292,7 +292,6 @@ def create_xero_goods_adjustment(good_instance):
 def xero_send_invoice_data(request, client_data):
     try:
         data = json.loads(request.decode("utf8").replace("'", '"'))
-        print(data)
         data = data["events"][0]
         invoice_id = data["resourceId"]
         event_type = data["eventType"]
@@ -310,6 +309,12 @@ def xero_send_invoice_data(request, client_data):
 
         credentials = xero_client_credentials(client_data)
         xero = Xero(credentials)
+
+        struct_logger.info(
+            event="xero_incoming_invoice",
+            message="retrieving xero invoice",
+            invoice_id=invoice_id,
+        )
 
         invoices = xero.invoices.get("{}".format(invoice_id))
 
@@ -370,7 +375,13 @@ def generate_mita_invoice(xero_invoices, client_data):
                 buyer_type, buyer_tax_pin = get_client_tax_credentials(
                     contact_groups, xero_invoice)
 
-                print("line-items {}".format(xero_invoice["LineItems"]))
+                if xero_invoice["CurrencyCode"] != "UGX":
+                    struct_logger.error(
+                        event="create_mita_invoice",
+                        msg="export currency code",
+                        currency_code=xero_invoice["CurrencyCode"],
+                    )
+                    is_export = True
 
                 for good in xero_invoice["LineItems"]:
                     try:
