@@ -31,7 +31,7 @@ def process_invoice(response, client_acc_id):
         customer = customer_data["CustomerList"][0]
 
         struct_logger.info(
-            event="create_outgoing_dear_creditnote",
+            event="create_outgoing_dear_invoice",
             invoice_data=invoice_data,
             customer_data=customer,
         )
@@ -209,6 +209,8 @@ def clean_currency_product(currency):
 
 
 def clean_tax_pin(customer, client_data):
+    
+    print('customer number : {}'.format(customer))
 
     if customer["TaxNumber"]:
         tax_pin = customer["TaxNumber"]

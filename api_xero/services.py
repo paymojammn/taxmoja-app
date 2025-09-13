@@ -609,6 +609,9 @@ def get_client_tax_credentials(contact_groups, xero_invoice):
 
     except Exception as ex:
         buyer_type = "1"
-        buyer_tax_pin = ""
+        try:
+            buyer_tax_pin = xero_invoice["Contact"]["TaxNumber"]
+        except Exception as ex:
+            buyer_tax_pin = ""
 
         return buyer_type, buyer_tax_pin
