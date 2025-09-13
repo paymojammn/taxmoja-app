@@ -128,7 +128,7 @@ def efris_bulk_configure_goods(client_data):
         measure_unit = "PP"  # Replace with actual logic
 
         for item in items:
-       
+
             efris_stock_configuration_payload = {
                 "goods_name": item.get("Name"),
                 "goods_code": item.get("Code"),

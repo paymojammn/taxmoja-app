@@ -198,4 +198,5 @@ def create_goods_adjustment(
         "adjust_type": adjust_type,
     }
 
-    send_mita_request("stock/adjustment", efris_stock_adjustment_payload, client_data)
+    send_mita_request("stock/adjustment",
+                      efris_stock_adjustment_payload, client_data)

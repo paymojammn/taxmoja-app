@@ -13,7 +13,8 @@ struct_logger = structlog.get_logger(__name__)
 def process_invoice(response, client_acc_id):
     try:
         # Get local client
-        client_data = get_object_or_404(DearEfrisClientCredentials, pk=client_acc_id)
+        client_data = get_object_or_404(
+            DearEfrisClientCredentials, pk=client_acc_id)
         # retrieving invoice data
 
         task_id = response["SaleTaskID"]
@@ -90,7 +91,8 @@ def process_invoice(response, client_acc_id):
 def process_credit_note(response, client_acc_id):
     try:
         # Get local client
-        client_data = get_object_or_404(DearEfrisClientCredentials, pk=client_acc_id)
+        client_data = get_object_or_404(
+            DearEfrisClientCredentials, pk=client_acc_id)
 
         # retrieving credit_note data
 
@@ -174,13 +176,15 @@ def process_credit_note(response, client_acc_id):
 def send_dear_api_request(url: str, client_acc_id):
     try:
         # Get local client
-        client_data = get_object_or_404(DearEfrisClientCredentials, pk=client_acc_id)
+        client_data = get_object_or_404(
+            DearEfrisClientCredentials, pk=client_acc_id)
         url = "{}/{}".format(client_data.dear_url.dear_url, url)
 
         account_id = client_data.dear_account_id
         app_key = client_data.dear_app_key
 
-        headers = {"api-auth-accountid": account_id, "api-auth-applicationkey": app_key}
+        headers = {"api-auth-accountid": account_id,
+                   "api-auth-applicationkey": app_key}
         response = requests.request("GET", url, headers=headers)
 
         struct_logger.info(
@@ -205,11 +209,11 @@ def clean_currency_product(currency):
 
 
 def clean_tax_pin(customer, client_data):
-    tax_pin = (
-        customer["TaxNumber"]
-        if customer["TaxNumber"]
-        else customer[client_data.dear_tax_pin_field]
-    )
+
+    if customer["TaxNumber"]:
+        tax_pin = customer["TaxNumber"]
+    else:
+        tax_pin = customer[client_data.dear_tax_pin_field]
 
     return tax_pin
 
@@ -349,13 +353,15 @@ def create_mita_invoice(
         },
         "instance_invoice_id": invoice_code,
     }
-    struct_logger.info(event="sending dear invoice to mita", mita_payload=mita_payload)
+    struct_logger.info(event="sending dear invoice to mita",
+                       mita_payload=mita_payload)
     return send_mita_request("invoice/queue?erp=dear", mita_payload, client_data)
 
 
 def create_goods_configuration(request, client_acc_id):
     # Get local client
-    client_data = get_object_or_404(DearEfrisClientCredentials, pk=client_acc_id)
+    client_data = get_object_or_404(
+        DearEfrisClientCredentials, pk=client_acc_id)
     for sku in request:
         try:
             url = "/product?ID={}".format(sku["productID"])
@@ -416,7 +422,8 @@ def create_goods_configuration(request, client_acc_id):
 
 
 def create_goods_adjustment(request, client_acc_id):
-    client_data = get_object_or_404(DearEfrisClientCredentials, pk=client_acc_id)
+    client_data = get_object_or_404(
+        DearEfrisClientCredentials, pk=client_acc_id)
 
     try:
         task_id = request["TaskID"]
@@ -485,7 +492,8 @@ def create_goods_stock_in(
     dear_stock, client_acc_id, operation_type="101", adjust_type="", stock_in_type="103"
 ):
     try:
-        client_data = get_object_or_404(DearEfrisClientCredentials, pk=client_acc_id)
+        client_data = get_object_or_404(
+            DearEfrisClientCredentials, pk=client_acc_id)
         for stock in dear_stock:
             struct_logger.info(
                 event="dear stock adjustment",
