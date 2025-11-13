@@ -10,6 +10,7 @@ whitenoise
 pyngo
 
 
+
 # Rest framework
 
 djangorestframework
@@ -21,8 +22,9 @@ pygments
 python-quickbooks
 intuit-oauth
 
-
-
 # xero
 
 pyxero
+
+# Admin Themes
+django-unfold

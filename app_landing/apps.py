@@ -1,7 +1,6 @@
 from django.apps import AppConfig
 
 
-class MitaApiConfig(AppConfig):
+class AppLandingConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'api_mita'
-    verbose_name='Tax API'
+    name = 'app_landing'

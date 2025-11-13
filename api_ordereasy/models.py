@@ -20,17 +20,20 @@ class OEEfrisClientCredentials(ClientCredentials):
     oe_api_key = models.CharField(
         max_length=500,
     )
-    stock_configuration_measure_unit = models.CharField(max_length=200, null=True, blank=True)
-    stock_configuration_currency = models.CharField(max_length=200, null=True, blank=True)
-    stock_configuration_unit_price = models.CharField(max_length=200, null=True, blank=True)
-    stock_configuration_commodity_category = models.CharField(max_length=200, null=True, blank=True)
+    stock_configuration_measure_unit = models.CharField(
+        max_length=200, null=True, blank=True)
+    stock_configuration_currency = models.CharField(
+        max_length=200, null=True, blank=True)
+    stock_configuration_unit_price = models.CharField(
+        max_length=200, null=True, blank=True)
+    stock_configuration_commodity_category = models.CharField(
+        max_length=200, null=True, blank=True)
 
     active = models.BooleanField(default=False)
 
-
     class Meta:
-        verbose_name = "Client Credentials"
-        verbose_name_plural = "Client Credentials"
+        verbose_name = "Credentials"
+        verbose_name_plural = "Credentials"
 
     def __str__(self):
         return self.company_name
@@ -65,16 +68,20 @@ class OEEfrisGoodsAdjustment(EfrisGoodsAdjustment):
 class OEOutgoingInvoice(EfrisOutgoingInvoice):
     date_created = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Invoice"
+        verbose_name_plural = "Invoices"
+
 
 @receiver(post_save, sender=OEEfrisGoodsAdjustment)
 def create_efris_goods_adjustment(sender, instance, **kwargs):
-    from .services import create_xero_goods_adjustment
+    from .efris import create_xero_goods_adjustment
 
     # create_xero_goods_adjustment(instance.__dict__)
 
 
 @receiver(post_save, sender=OEEfrisGoodsConfiguration)
 def create_efris_goods_configuration(sender, instance, **kwargs):
-    from .services import create_xero_goods_configuration
+    from .efris import create_xero_goods_configuration
 
     # create_xero_goods_configuration(instance.__dict__)

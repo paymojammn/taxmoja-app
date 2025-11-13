@@ -21,7 +21,7 @@ from xero import Xero
 from xero.auth import OAuth2Credentials
 from xero.constants import XeroScopes
 from .models import XeroEfrisClientCredentials
-from .services import efris_bulk_configure_goods, xero_send_invoice_data, efris_bulk_adjust_goods
+from .efris import efris_bulk_configure_goods, xero_send_invoice_data, efris_bulk_adjust_goods
 
 from django.core.exceptions import BadRequest
 from django.shortcuts import get_object_or_404

@@ -21,8 +21,8 @@ class DearCredentials(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "Dear Credentials"
-        verbose_name_plural = "Dear Credentials"
+        verbose_name = "Setting"
+        verbose_name_plural = "Settings"
 
     def __str__(self):
         return self.dear_url
@@ -54,45 +54,41 @@ class DearEfrisClientCredentials(ClientCredentials):
     dear_is_export_field = models.CharField(
         max_length=150,
         default="NONE",
-    ) 
+    )
 
     dear_default_cashier = models.CharField(
         max_length=150,
         default="NONE",
-    ) 
+    )
 
     dear_stock_description_field = models.CharField(
         max_length=150,
         default="NONE",
-    ) 
+    )
 
     dear_stock_measure_unit_field = models.CharField(
         max_length=150,
         default="NONE",
-    ) 
+    )
 
     dear_stock_commodity_category_field = models.CharField(
         max_length=150,
         default="NONE",
-    ) 
+    )
 
     dear_stock_currency_field = models.CharField(
         max_length=150,
         default="NONE",
-    ) 
+    )
 
     dear_stock_in_price_field = models.CharField(
         max_length=150,
         default="NONE",
-    ) 
-
-
-
-
+    )
 
     class Meta:
-        verbose_name = "Client Credentials"
-        verbose_name_plural = "Client Credentials"
+        verbose_name = "Credentials"
+        verbose_name_plural = "Credentials"
 
     def __str__(self):
         return self.company_name
@@ -126,6 +122,10 @@ class DearEfrisGoodsAdjustment(EfrisGoodsAdjustment):
 
 class DearOutgoingInvoice(EfrisOutgoingInvoice):
     date_created = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name = "Invoices"
+        verbose_name_plural = "Invoices"
 
 
 @receiver(post_save, sender=DearEfrisGoodsAdjustment)

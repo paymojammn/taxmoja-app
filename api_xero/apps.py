@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class XeroApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'api_xero'
-    verbose_name='API XERO'
+    verbose_name='ERP Xero'

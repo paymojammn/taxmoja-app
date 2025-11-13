@@ -29,6 +29,7 @@ import structlog
 
 struct_logger = structlog.get_logger(__name__)
 
+
 def create_xero_goods_configuration(good_instance):
     try:
         struct_logger.info(event='create_xero_goods_configuration',
@@ -201,7 +202,6 @@ def create_xero_goods_adjustment(good_instance):
                             )
 
 
-
 def xero_get_contacts(request, client_data):
     # cred_state = cache.get('xero_creds')
     cred_state = client_data.cred_state
@@ -266,9 +266,3 @@ def xero_put_item(request):
     item = xero.items.put(item)
 
     return HttpResponse("items retrieved {}".format(item))
-
-
-
-
-
-

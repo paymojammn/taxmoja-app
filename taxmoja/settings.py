@@ -10,17 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import environ
 from pathlib import Path
 
 import os
 
 
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-import environ
 env = environ.Env()
 environ.Env.read_env()
 
@@ -31,26 +29,39 @@ environ.Env.read_env()
 SECRET_KEY = 'django-insecure-cu(s1x040qokgnoip_13#iv0st8!ftg%2-17f7ro=+=#k3f8j('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
-CSRF_TRUSTED_ORIGINS = ['https://taxmoja-app.azurewebsites.net',
+CSRF_TRUSTED_ORIGINS = ['https://taxmoja-app.azurewebsites.net', 'https://*.xero.com/',
                         'https://*.taxmoja.com/', 'https://5fac-62-8-83-6.eu.ngrok.io', 'http://*.127.0.0.1']
 
 # Application definition
 
 INSTALLED_APPS = [
-
+    # Admin Themes
+    "unfold",  # before django.contrib.admin
+    "unfold.contrib.filters",  # optional, if special filters are needed
+    "unfold.contrib.forms",  # optional, if special form elements are needed
+    "unfold.contrib.inlines",  # optional, if special inlines are needed
+    "unfold.contrib.import_export",  # optional, if django-import-export package is used
+    "unfold.contrib.guardian",  # optional, if django-guardian package is used
+    # optional, if django-simple-history package is used
+    "unfold.contrib.simple_history",
+    # optional, if django-location-field package is used
+    "unfold.contrib.location_field",
+    "unfold.contrib.constance",  # optional, if django-constance package is used
+    # Shipped with Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     # Rest Framework
+    # Rest Framework
     "rest_framework",
     "import_export",
     # Taxmoja Apps
+    "app_landing.apps.AppLandingConfig",
     "oauth2.apps.ClientAuthorizationConfig",
     "api_mita.apps.MitaApiConfig",
     "api_xero.apps.XeroApiConfig",

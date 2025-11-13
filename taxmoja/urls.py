@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -43,8 +43,9 @@ router = routers.DefaultRouter()
 router.register(r"users", UserViewSet)
 
 
-
 urlpatterns = [
+    # Landing Page
+    path('', include('app_landing.urls')),
     path('admin/', admin.site.urls),
     # Rest Framework
     path("api/", include(router.urls)),
@@ -60,9 +61,9 @@ urlpatterns = [
         "oe/",
         include(("api_ordereasy.urls", "quickbooks"), namespace="ordereasy"),
     ),
-   
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
-admin.site.site_header = "Taxmoja Admin"
-admin.site.site_title = "Taxmoja Admin Portal"
-admin.site.index_title = "Welcome to Taxmoja Admin Portal"
+admin.site.site_header = "Centry Tax"                 # top-left brand
+admin.site.site_title = "Centry Tax Admin Portal"     # <title> in browser tab
+admin.site.index_title = "Welcome to Centry Tax"

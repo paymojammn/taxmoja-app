@@ -14,13 +14,17 @@ class QuickbooksEfrisClientCredentials(ClientCredentials, OAuth2ClientCredential
     sandbox_url = models.CharField(
         max_length=1000, blank=True, null=True, default="NONE"
     )
-    prod_url = models.CharField(max_length=1000, blank=True, null=True, default="NONE")
+    prod_url = models.CharField(
+        max_length=1000, blank=True, null=True, default="NONE")
     refresh_token = models.CharField(
         max_length=1000, blank=True, null=True, default="NONE"
     )
-    realm_id = models.CharField(max_length=1000, blank=True, null=True, default="NONE")
-    auth_code = models.CharField(max_length=1000, blank=True, null=True, default="NONE")
-    state = models.CharField(max_length=1000, blank=True, null=True, default="NONE")
+    realm_id = models.CharField(
+        max_length=1000, blank=True, null=True, default="NONE")
+    auth_code = models.CharField(
+        max_length=1000, blank=True, null=True, default="NONE")
+    state = models.CharField(
+        max_length=1000, blank=True, null=True, default="NONE")
     basic_token = models.CharField(
         max_length=1000, blank=True, null=True, default="NONE"
     )
@@ -30,15 +34,18 @@ class QuickbooksEfrisClientCredentials(ClientCredentials, OAuth2ClientCredential
     cashier = models.CharField(
         max_length=100, blank=True, null=True, default="SYSTEM"
     )
-    stock_configuration_measure_unit = models.CharField(max_length=200, null=True, blank=True)
-    stock_configuration_currency = models.CharField(max_length=200, null=True, blank=True)
-    stock_configuration_unit_price = models.CharField(max_length=200, null=True, blank=True)
-    stock_configuration_commodity_category = models.CharField(max_length=200, null=True, blank=True)
-
+    stock_configuration_measure_unit = models.CharField(
+        max_length=200, null=True, blank=True)
+    stock_configuration_currency = models.CharField(
+        max_length=200, null=True, blank=True)
+    stock_configuration_unit_price = models.CharField(
+        max_length=200, null=True, blank=True)
+    stock_configuration_commodity_category = models.CharField(
+        max_length=200, null=True, blank=True)
 
     class Meta:
-        verbose_name = "Client Credentials"
-        verbose_name_plural = "Client Credentials"
+        verbose_name = "Credentials"
+        verbose_name_plural = "Credentials"
 
     def __str__(self):
         return self.company_name

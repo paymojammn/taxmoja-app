@@ -34,8 +34,8 @@ class XeroEfrisClientCredentials(ClientCredentials, OAuth2ClientCredentials):
     )
 
     class Meta:
-        verbose_name = "Client Credentials"
-        verbose_name_plural = "Client Credentials"
+        verbose_name = "Credentials"
+        verbose_name_plural = "Credentials"
 
     def __str__(self):
         return self.company_name
@@ -75,19 +75,30 @@ class XeroEfrisGoodsAdjustment(EfrisGoodsAdjustment):
         return self.good.goods_name
 
 
+
 class XeroIncomingInvoice(EfrisOutgoingInvoice):
-    pass
+    id = models.AutoField(primary_key=True)   # 👈 explicitly add an ID
+    invoice_number = models.CharField(max_length=100, blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    total = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Invoice"
+        verbose_name_plural = "Invoices"
+
+    def __str__(self):
+        return self.invoice_number or f"Invoice {self.pk}"
 
 
 @receiver(post_save, sender=XeroEfrisGoodsAdjustment)
 def create_efris_goods_adjustment(sender, instance, **kwargs):
-    from .services import create_xero_goods_adjustment
+    from .efris import create_xero_goods_adjustment
 
     create_xero_goods_adjustment(instance.__dict__)
 
 
 @receiver(post_save, sender=XeroEfrisGoodsConfiguration)
 def create_efris_goods_configuration(sender, instance, **kwargs):
-    from .services import create_xero_goods_configuration
+    from .efris import create_xero_goods_configuration
 
     create_xero_goods_configuration(instance.__dict__)
