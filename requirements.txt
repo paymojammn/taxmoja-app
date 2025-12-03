@@ -8,6 +8,7 @@ django-rest-framework
 structlog
 whitenoise
 pyngo
+gunicorn
 
 
 
