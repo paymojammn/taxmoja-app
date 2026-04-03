@@ -878,110 +878,68 @@
   </style>
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="/" class="logo">
-        <div class="logo-icon">
-          <span>C</span>
-        </div>
-        <span class="logo-text">Centry Tax</span>
-      </a>
+	<!-- Navigation -->
+	<nav class="navbar" id="navbar">
+		<div class="nav-container">
+			<a href="/" class="logo">Centry Tax</a>
+			<ul class="nav-links">
+				<li><a href="#features">Features</a></li>
+				<li><a href="#how-it-works">How It Works</a></li>
+				<li><a href="#integrations">Integrations</a></li>
+				<li><a href="/admin" class="btn btn-primary">Admin Portal</a></li>
+			</ul>
+		</div>
+	</nav>
 
-      <ul class="nav-links">
-        <li><a href="#features">Features</a></li>
-        <li><a href="#how-it-works">How It Works</a></li>
-        <li><a href="#integrations">Integrations</a></li>
-      </ul>
+	<!-- Hero Section -->
+	<section class="hero">
+		<div class="hero-container">
+			<div class="hero-content">
+				<h1>
+					Automated Global <span class="highlight">Fiscal Invoicing</span> Made Simple
+				</h1>
+				<p>
+					Seamlessly integrate your ERP with tax authorities across Africa and beyond. 
+					One API, multiple countries, complete compliance.
+				</p>
+				<div class="hero-buttons">
+					<a href="/admin" class="btn btn-primary">Get Started</a>
+					<a href="#how-it-works" class="btn btn-outline">Learn More</a>
+				</div>
+			</div>
+			<div class="hero-image">
+				<div style="background: linear-gradient(135deg, rgba(99, 140, 128, 0.1), rgba(99, 140, 128, 0.05)); 
+							padding: 3rem; 
+							border-radius: 20px; 
+							text-align: center;">
+					<div style="font-size: 8rem; color: var(--centry-primary); opacity: 0.7;">📊</div>
+					<h3 style="color: var(--centry-primary); margin-top: 1rem;">Enterprise-Grade Solution</h3>
+				</div>
+			</div>
+		</div>
+	</section>
 
-      <div class="nav-buttons">
-        <a href="/docs" class="btn btn-ghost">Documentation</a>
-        <a href="https://getcentry.app/auth/login" class="btn btn-primary">Admin Portal</a>
-      </div>
-
-      <button class="mobile-menu-btn" aria-label="Menu">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-left">
-      <div class="hero-logo">
-        <div class="hero-logo-icon">
-          <span>C</span>
-        </div>
-        <span class="hero-logo-text">Centry Tax</span>
-      </div>
-
-      <div class="hero-content">
-        <h1>Automated global<br>fiscal invoicing.</h1>
-        <p>
-          Seamlessly integrate your ERP with tax authorities across Africa and beyond. One API, multiple countries, complete compliance.
-        </p>
-      </div>
-
-      <div class="hero-footer">
-        <a href="#" style="color: inherit; text-decoration: none;">Status Page</a>
-        <div class="hero-footer-divider"></div>
-        <a href="#" style="color: inherit; text-decoration: none;">Security Noticeboard</a>
-        <div class="hero-footer-divider"></div>
-        <a href="#" style="color: inherit; text-decoration: none;">Terms of Use</a>
-        <div class="hero-footer-divider"></div>
-        <a href="#" style="color: inherit; text-decoration: none;">Privacy</a>
-        <div class="hero-footer-divider"></div>
-        <a href="#" style="color: inherit; text-decoration: none;">Help Centre</a>
-        <div class="hero-footer-divider"></div>
-        <a href="https://getcentry.app/auth/login" style="color: inherit; text-decoration: none;">Sign Up</a>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="hero-right-content">
-        <div class="hero-tagline">
-          <div class="hero-tagline-dot"></div>
-          <span>Now supporting EFRIS & TRA</span>
-        </div>
-
-        <h2>Start automating tax compliance</h2>
-        <p>
-           Automate your tax invoicing with seamless ERP integration and real-time submission to revenue authorities across Africa.
-        </p>
-
-        <div class="hero-buttons">
-          <a href="https://getcentry.app/auth/login" class="btn btn-primary btn-lg">
-            Get started
-            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-          </a>
-          <a href="#how-it-works" class="btn btn-outline btn-lg">Learn more</a>
-        </div>
-
-        <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-value">24/7</span>
-            <span class="stat-label">Support</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-value">98%</span>
-            <span class="stat-label">Uptime</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-value">SOC 2</span>
-            <span class="stat-label">Compliant</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-right-footer">
-        <p>ISO 27001 certified & SOC 2 Type II compliant</p>
-      </div>
-    </div>
-  </section>
+	<!-- Stats Bar -->
+	<div style="padding: 0 3rem;">
+		<div class="stats-bar">
+			<div class="stat-item">
+				<span class="stat-number">10+</span>
+				<span class="stat-label">Countries Supported</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">5+</span>
+				<span class="stat-label">ERP Integrations</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">99.9%</span>
+				<span class="stat-label">Uptime</span>
+			</div>
+			<div class="stat-item">
+				<span class="stat-number">24/7</span>
+				<span class="stat-label">Support</span>
+			</div>
+		</div>
+	</div>
 
   <!-- Features Section -->
   <section class="features" id="features">
@@ -1132,24 +1090,17 @@
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="cta-section">
-    <div class="cta-container">
-      <h2>Ready to transform your tax management?</h2>
-      <p>
-        Streamline your tax processes with Centry Tax. Start your journey to automated compliance today.
-      </p>
-      <div class="cta-buttons">
-        <a href="/admin" class="btn btn-white btn-lg">
-          Get started now
-          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-          </svg>
-        </a>
-        <a href="/api" class="btn btn-ghost-white btn-lg">View API docs</a>
-      </div>
-    </div>
-  </section>
+	<!-- CTA Section -->
+	<section class="cta-section">
+		<div class="cta-container">
+			<h2>Ready to Transform Your Tax Management?</h2>
+			<p>
+				Join hundreds of businesses streamlining their tax processes with Centry Tax. 
+				Start your journey to automated compliance today.
+			</p>
+			<a href="/admin" class="btn btn-white">Get Started Now</a>
+		</div>
+	</section>
 
   <!-- Footer -->
   <footer>
