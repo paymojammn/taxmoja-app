@@ -308,12 +308,14 @@ def xero_send_invoice_data(request, client_data):
         )
 
         credentials = xero_client_credentials(client_data)
+        credentials.tenant_id = tenant_id
         xero = Xero(credentials)
 
         struct_logger.info(
             event="xero_incoming_invoice",
             message="retrieving xero invoice",
             invoice_id=invoice_id,
+            tenant_id=tenant_id,
         )
 
         invoices = xero.invoices.get("{}".format(invoice_id))
@@ -329,6 +331,11 @@ def xero_send_invoice_data(request, client_data):
         return HttpResponse("invoices retrieved {}".format(invoices))
 
     except Exception as ex:
+        struct_logger.error(
+            event="xero_send_invoice_data",
+            error=str(ex),
+            message="failed to retrieve or process xero invoice",
+        )
         return HttpResponse("invoices not retrieved {}".format(str(ex)))
 
 

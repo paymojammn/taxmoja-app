@@ -114,7 +114,7 @@ def xero_invoice_webhook(request, client_acc_id):
 
         return HttpResponse(status=status_code)
     except Exception as ex:
-        struct_logger.info(event="xero_invoice_webhook", error=str(ex))
+        struct_logger.error(event="xero_invoice_webhook", error=str(ex))
         return HttpResponse(status=401)
 
 
