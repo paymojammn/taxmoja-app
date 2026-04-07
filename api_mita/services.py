@@ -16,6 +16,9 @@ def send_mita_request(url_ext, payload, client_account):
         url_ext=url_ext,
         payload=payload,
         client_account=client_account,
+        tax_pin=client_account.tax_pin,
+        mita_country_code=client_account.mita_country_code,
+        mita_api_header=client_account.mita_api_header,
     )
     mita_url = mita_credentials.mita_url
     url = "{}/{}".format(mita_url, url_ext)

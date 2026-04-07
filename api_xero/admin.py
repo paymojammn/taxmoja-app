@@ -60,6 +60,13 @@ class XeroEfrisClientCredentialsAdmin(ModelAdmin):
 
     fieldsets = (
         ("Company", {"fields": ("company_name",)}),
+        ("MITA Configuration", {
+            "fields": (
+                "tax_pin",
+                "mita_api_header",
+                "mita_country_code",
+            )
+        }),
         ("OAuth2 Credentials", {
             "fields": (
                 "client_id",

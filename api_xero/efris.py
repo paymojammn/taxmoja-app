@@ -308,6 +308,14 @@ def xero_send_invoice_data(request, client_data):
         )
 
         credentials = xero_client_credentials(client_data)
+        if credentials is None:
+            struct_logger.error(
+                event="xero_send_invoice_data",
+                message="xero credentials are None",
+                client_account_id=client_data.pk,
+            )
+            return HttpResponse("xero credentials not found", status=500)
+
         credentials.tenant_id = tenant_id
         xero = Xero(credentials)
 
@@ -322,18 +330,29 @@ def xero_send_invoice_data(request, client_data):
 
         struct_logger.info(
             event="xero_incoming_invoice",
-            message="invoices retrived",
+            message="invoices retrieved",
             invoice_data=invoices,
+            invoice_count=len(invoices) if invoices else 0,
         )
+
+        if not invoices:
+            struct_logger.error(
+                event="xero_send_invoice_data",
+                message="xero returned no invoices",
+                invoice_id=invoice_id,
+            )
+            return HttpResponse("no invoices returned from xero", status=500)
 
         generate_mita_invoice(invoices, client_data)
 
         return HttpResponse("invoices retrieved {}".format(invoices))
 
     except Exception as ex:
+        import traceback
         struct_logger.error(
             event="xero_send_invoice_data",
             error=str(ex),
+            traceback=traceback.format_exc(),
             message="failed to retrieve or process xero invoice",
         )
         return HttpResponse("invoices not retrieved {}".format(str(ex)))
